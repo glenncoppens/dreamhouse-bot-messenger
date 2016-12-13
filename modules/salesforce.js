@@ -146,18 +146,18 @@ let findBrokers = (params) => {
     let where = "";
     if (params) {
         let parts = [];
-        if (params.id) parts.push(`id='${params.id}'`);
+        if (params.propertyId) parts.push(`Property__c.id='${params.propertyId}'`);
         if (parts.length>0) {
             where = "WHERE " + parts.join(' AND ');
         }
     }
     return new Promise((resolve, reject) => {
-        let q = `SELECT Id,
-                    Title__c,
-                    Name,
-                    Email__c,
-                    Picture__c
-                FROM Broker__c
+        let q = `SELECT Broker__c.Id,
+                    Broker__c.Title__c,
+                    Broker__c.Name,
+                    Broker__c.Email__c,
+                    Broker__c.Picture__c
+                FROM Broker__c, Property__c
                 ${where}
                 LIMIT 1`;
         org.query({query: q}, (err, resp) => {
