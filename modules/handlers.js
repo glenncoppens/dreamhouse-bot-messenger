@@ -13,6 +13,7 @@ exports.searchHouse = (sender) => {
 
 exports.searchHouse_City = (sender, values) => {
     messenger.send({text: `OK, looking for houses in ${values[1]}`}, sender);
+    messenger.send({sender_action: `typing_on`}, sender);
     salesforce.findProperties({city: values[1]}).then(properties => {
         if(properties.length > 0) {
             messenger.send(formatter.formatProperties(properties), sender);
