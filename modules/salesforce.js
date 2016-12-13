@@ -140,6 +140,34 @@ let createCase = (propertyId, customerName, customerId) => {
             }
         });
     });
+};
+
+let findBrokers = (params) => {
+    let where = "";
+    if (params) {
+        let parts = [];
+        if (params.id) parts.push(`id='${params.id}'`);
+        if (parts.length>0) {
+            where = "WHERE " + parts.join(' AND ');
+        }
+    }
+    return new Promise((resolve, reject) => {
+        let q = `SELECT Id,
+                    Title__c,
+                    Name,
+                    Email__c,
+                    Picture__c
+                FROM Broker__c
+                ${where}
+                LIMIT 1`;
+        org.query({query: q}, (err, resp) => {
+            if (err) {
+                reject("An error as occurred");
+            } else {
+                resolve(resp.records);
+            }
+        });
+    });
 
 };
 
@@ -150,3 +178,4 @@ exports.findProperties = findProperties;
 exports.findPropertiesByCategory = findPropertiesByCategory;
 exports.findPriceChanges = findPriceChanges;
 exports.createCase = createCase;
+exports.findBroker = findBroker;

@@ -16,9 +16,14 @@ exports.schedule_visit = (sender, values) => {
 // };
 
 exports.contact_broker = (sender, values) => {
+
     console.log(values);
-    messenger.send({text: "Here is the broker information for this property"}, sender);
-    messenger.send(formatter.formatBroker(), sender);
+    salesforce.findBrokers({id: values[1]}).then(brokers => {
+        messenger.send({text: "Here is the broker information for this property"}, sender);
+        messenger.send(formatter.formatBrokerInfo(brokers[0]), sender);
+    });
+    
+    
 };
 
 exports.confirm_visit = (sender, values) => {

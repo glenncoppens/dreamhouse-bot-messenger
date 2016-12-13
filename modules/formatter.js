@@ -139,3 +139,27 @@ exports.formatBroker = broker => {
         }
     };
 };
+
+exports.formatBrokerInfo = broker => {
+    let elements = [];
+    elements.push({
+        title: broker.get("Name"),
+        subtitle: broker.get("Title__c") + " · " + broker.get("Email__c"),
+        "image_url": broker.get("Picture__c"),
+        "buttons": [
+            {
+                "type": "postback",
+                "title": "Contact Me",
+                "payload": "contact_me"
+            }]
+    });
+    return {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+                "elements": elements
+            }
+        }
+    };
+};
