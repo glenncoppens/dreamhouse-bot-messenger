@@ -55,7 +55,6 @@ let findProperties = (params) => {
                 LIMIT 5`;
         org.query({query: q}, (err, resp) => {
             if (err) {
-                messenger.send({text: "Sorry, I couldn't find any properties matching your requirements."}, sender);
                 reject("An error as occurred");
 
             } else {

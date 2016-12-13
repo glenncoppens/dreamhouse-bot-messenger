@@ -20,11 +20,10 @@ exports.contact_broker = (sender, values) => {
 
     console.log(values);
     salesforce.findProperty({id: propertyId}).then(properties => {
-
         let property = properties[0];
         console.log(property);
         salesforce.findBrokers({id: property.get("broker__c")}).then(brokers => {
-            messenger.send({text: "Here is the broker information for this property"}, sender);
+            messenger.send({text: "Here is the broker information for this property:"}, sender);
             messenger.send(formatter.formatBrokerInfo(brokers[0]), sender);
         });
     });    

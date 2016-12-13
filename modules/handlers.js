@@ -14,7 +14,13 @@ exports.searchHouse = (sender) => {
 exports.searchHouse_City = (sender, values) => {
     messenger.send({text: `OK, looking for houses in ${values[1]}`}, sender);
     salesforce.findProperties({city: values[1]}).then(properties => {
-        messenger.send(formatter.formatProperties(properties), sender);
+        if(properties.length > 0) {
+            messenger.send(formatter.formatProperties(properties), sender);
+        } else {
+            messenger.getUserInfo(sender).then(response => {
+                messenger.send({text: `Sorry ${response.first_name}. I couldn't find any houses that meet your requirements.`}, sender);
+            });
+        }
     });
 };
 
