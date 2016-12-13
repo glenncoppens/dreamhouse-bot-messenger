@@ -10,7 +10,13 @@ exports.schedule_visit = (sender, values) => {
     });
 };
 
+// exports.contact_broker = (sender, values) => {
+//     messenger.send({text: "Here is the broker information for this property"}, sender);
+//     messenger.send(formatter.formatBroker(), sender);
+// };
+
 exports.contact_broker = (sender, values) => {
+    console.log(values);
     messenger.send({text: "Here is the broker information for this property"}, sender);
     messenger.send(formatter.formatBroker(), sender);
 };
