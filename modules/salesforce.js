@@ -178,4 +178,4 @@ exports.findProperties = findProperties;
 exports.findPropertiesByCategory = findPropertiesByCategory;
 exports.findPriceChanges = findPriceChanges;
 exports.createCase = createCase;
-exports.findBroker = findBroker;
+exports.findBrokers = findBrokers;
