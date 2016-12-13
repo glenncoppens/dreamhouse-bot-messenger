@@ -1,6 +1,7 @@
 "use strict";
 
 let nforce = require('nforce'),
+    messenger = require('./messenger'),
 
     SF_CLIENT_ID = process.env.SF_CLIENT_ID,
     SF_CLIENT_SECRET = process.env.SF_CLIENT_SECRET,
@@ -54,7 +55,9 @@ let findProperties = (params) => {
                 LIMIT 5`;
         org.query({query: q}, (err, resp) => {
             if (err) {
+                messenger.send({text: "Sorry, I couldn't find any properties matching your requirements."}, sender);
                 reject("An error as occurred");
+
             } else {
                 resolve(resp.records);
             }
