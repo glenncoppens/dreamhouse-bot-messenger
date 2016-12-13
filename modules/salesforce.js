@@ -142,22 +142,61 @@ let createCase = (propertyId, customerName, customerId) => {
     });
 };
 
-let findBrokers = (params) => {
+let findProperty = (params) => {
     let where = "";
     if (params) {
         let parts = [];
-        if (params.propertyId) parts.push(`Property__c.id='${params.propertyId}'`);
+        if (params.id) parts.push(`id='${params.id}'`);
+        if (params.city) parts.push(`city__c='${params.city}'`);
+        if (params.bedrooms) parts.push(`beds__c=${params.bedrooms}`);
+        if (params.priceMin) parts.push(`price__c>=${params.priceMin}`);
+        if (params.priceMax) parts.push(`price__c<=${params.priceMax}`);
         if (parts.length>0) {
             where = "WHERE " + parts.join(' AND ');
         }
     }
     return new Promise((resolve, reject) => {
-        let q = `SELECT Broker__c.Id,
-                    Broker__c.Title__c,
-                    Broker__c.Name,
-                    Broker__c.Email__c,
-                    Broker__c.Picture__c
-                FROM Broker__c, Property__c
+        let q = `SELECT id,
+                    title__c,
+                    address__c,
+                    city__c,
+                    state__c,
+                    price__c,
+                    beds__c,
+                    baths__c,
+                    picture__c,
+                    broker__c
+                FROM property__c
+                ${where}
+                LIMIT 1`;
+        org.query({query: q}, (err, resp) => {
+            if (err) {
+                reject("An error as occurred");
+            } else {
+                resolve(resp.records);
+            }
+        });
+    });
+
+};
+
+
+let findBrokers = (params) => {
+    let where = "";
+    if (params) {
+        let parts = [];
+        if (params.propertyId) parts.push(`id='${params.id}'`);
+        if (parts.length>0) {
+            where = "WHERE " + parts.join(' AND ');
+        }
+    }
+    return new Promise((resolve, reject) => {
+        let q = `SELECT broker__c.Id,
+                    broker__c.title__c,
+                    broker__c.name,
+                    broker__c.email__c,
+                    broker__c.picture__c
+                FROM broker__c
                 ${where}
                 LIMIT 1`;
         org.query({query: q}, (err, resp) => {
@@ -179,3 +218,4 @@ exports.findPropertiesByCategory = findPropertiesByCategory;
 exports.findPriceChanges = findPriceChanges;
 exports.createCase = createCase;
 exports.findBrokers = findBrokers;
+exports.findProperty = findProperty;

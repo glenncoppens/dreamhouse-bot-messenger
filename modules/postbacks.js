@@ -16,9 +16,11 @@ exports.schedule_visit = (sender, values) => {
 // };
 
 exports.contact_broker = (sender, values) => {
+    let propertyId = values[1];
+    let property = salesforce.findProperty({id: propertyId});
 
     console.log(values);
-    salesforce.findBrokers({propertyId: values[1]}).then(brokers => {
+    salesforce.findBrokers({id: property.get("broker__c")}).then(brokers => {
         messenger.send({text: "Here is the broker information for this property"}, sender);
         messenger.send(formatter.formatBrokerInfo(brokers[0]), sender);
     });
